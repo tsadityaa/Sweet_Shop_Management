@@ -76,6 +76,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Serve static files from the built frontend
+const publicPath = path.join(__dirname, '../../dist/public');
+app.use(express.static(publicPath));
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
@@ -83,8 +87,10 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/sweets', sweetsRoutes);
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'Not Found' });
+// SPA fallback - serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  const indexPath = path.join(__dirname, '../../dist/public/index.html');
+  res.sendFile(indexPath);
 });
 
 app.use((err, req, res, next) => {
