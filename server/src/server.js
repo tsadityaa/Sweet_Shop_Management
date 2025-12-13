@@ -78,6 +78,11 @@ app.use(cookieParser());
 
 // Serve static files from the built frontend
 const publicPath = path.join(__dirname, '../../dist/public');
+console.log('📁 Serving static files from:', publicPath);
+console.log('📁 Path exists:', fs.existsSync(publicPath));
+if (fs.existsSync(publicPath)) {
+  console.log('📁 Files in public:', fs.readdirSync(publicPath));
+}
 app.use(express.static(publicPath));
 
 app.get('/health', (req, res) => {
