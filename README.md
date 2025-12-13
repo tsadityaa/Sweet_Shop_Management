@@ -2,6 +2,9 @@
 
 A full-stack web application for managing and purchasing delicious sweets with user authentication, admin controls, and comprehensive test coverage using Test-Driven Development (TDD).
 
+<img width="1515" height="896" alt="image" src="https://github.com/user-attachments/assets/a0d08a84-fe7c-42b1-83ba-ecf640e63c92" />
+
+
 ## Features
 
 - **User Authentication**: Registration, login, logout with JWT tokens
