@@ -76,14 +76,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Serve static files from the built frontend
-const publicPath = path.join(__dirname, '../../dist/public');
-console.log('📁 Serving static files from:', publicPath);
-console.log('📁 Path exists:', fs.existsSync(publicPath));
-if (fs.existsSync(publicPath)) {
-  console.log('📁 Files in public:', fs.readdirSync(publicPath));
-}
-app.use(express.static(publicPath));
+// Serve static files
+app.use(express.static(path.join(__dirname, '../../dist/public')));
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
@@ -92,10 +86,9 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/sweets', sweetsRoutes);
 
-// SPA fallback - serve index.html for all non-API routes
+// SPA fallback
 app.get('*', (req, res) => {
-  const indexPath = path.join(__dirname, '../../dist/public/index.html');
-  res.sendFile(indexPath);
+  res.sendFile(path.join(__dirname, '../../dist/public/index.html'));
 });
 
 app.use((err, req, res, next) => {

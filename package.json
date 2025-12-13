@@ -7,8 +7,7 @@
     "dev:client": "vite",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build": "vite build",
-    "build:full": "npm run build",
-    "start": "npm run build:full && node server/src/index.js"
+    "start": "npm run build && node server/src/index.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
