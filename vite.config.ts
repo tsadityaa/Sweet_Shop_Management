@@ -23,9 +23,9 @@ export default defineConfig({
     },
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "https://sweet-shop-management-triw.onrender.com",
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },

@@ -40,19 +40,19 @@ mongoose.connect(MONGO_URI, {
   try {
     const adminEmail = 't.s.aditya35@gmail.com';
     const adminPassword = 'Aditya@369';
-    const adminName = 'Admin';
+    const adminUsername = 'admin';
     // Always update admin user password and details
     let admin = await User.findOne({ email: adminEmail });
     if (!admin) {
       admin = await User.create({
-        name: adminName,
+        username: adminUsername,
         email: adminEmail,
         password: adminPassword, // assign plain password, let Mongoose hash it
         role: 'admin',
       });
     } else {
       admin.password = adminPassword; // assign plain password, let Mongoose hash it
-      admin.name = adminName;
+      admin.username = adminUsername;
       admin.role = 'admin';
       await admin.save();
     }
