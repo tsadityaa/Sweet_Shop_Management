@@ -2,6 +2,9 @@ import { createContext, useContext, useState, useCallback, useEffect } from 'rea
 import type { Sweet } from '@/lib/types';
 
 const AUTH_STORAGE_KEY = 'sweet_shop_auth';
+const API_BASE = import.meta.env.PROD
+  ? "https://sweet-shop-management-triw.onrender.com"
+  : "";
 
 interface SweetsContextType {
   sweets: Sweet[];
@@ -45,10 +48,10 @@ async function apiCall<T>(url: string, options: RequestInit = {}): Promise<{ dat
     console.log(`⚠️  No token found for API call`);
   }
   
-  console.log(`🌐 API Call: ${options.method || 'GET'} ${url}`);
+  console.log(`🌐 API Call: ${options.method || 'GET'} ${API_BASE + url}`);
   console.log(`   Headers:`, Object.keys(headers));
   try {
-    const response = await fetch(url, {
+    const response = await fetch(API_BASE + url, {
       ...options,
       credentials: 'include',
       headers,

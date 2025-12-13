@@ -1,4 +1,10 @@
+
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+
+// Use full backend URL in production (for static hosting)
+const API_BASE = import.meta.env.PROD
+  ? "https://sweet-shop-management-triw.onrender.com"
+  : "";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -40,7 +46,7 @@ export async function apiRequest(
   console.log(`📡 API Request: ${method} ${url}`);
   console.log(`   Headers:`, Object.keys(headers));
   
-  const res = await fetch(url, {
+  const res = await fetch(API_BASE + url, {
     method,
     headers,
     body: data ? JSON.stringify(data) : undefined,
@@ -57,7 +63,7 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey.join("/") as string, {
+    const res = await fetch(API_BASE + (queryKey.join("/") as string), {
       credentials: "include",
     });
 

@@ -2,6 +2,11 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 import type { User, AuthState, LoginCredentials, RegisterCredentials } from '@/lib/types';
 import { apiRequest } from '@/lib/queryClient';
 
+const AUTH_STORAGE_KEY = 'sweet_shop_auth';
+const API_BASE = import.meta.env.PROD
+  ? "https://sweet-shop-management-triw.onrender.com"
+  : "";
+
 interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<{ success: boolean; error?: string }>;
   register: (credentials: RegisterCredentials) => Promise<{ success: boolean; error?: string }>;
@@ -9,8 +14,6 @@ interface AuthContextType extends AuthState {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const AUTH_STORAGE_KEY = 'sweet_shop_auth';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [authState, setAuthState] = useState<AuthState>({
@@ -45,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('\n🔐 === LOGIN ATTEMPT ===');
       console.log('📝 Credentials:', { email: credentials.email, password: '***' });
       
-      const response = await apiRequest('POST', '/api/auth/login', credentials);
+      const response = await apiRequest('POST', API_BASE + '/api/auth/login', credentials);
       const data = await response.json() as { user: User; token: string };
       
       console.log('\n✅ Login response received');
@@ -83,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = useCallback(async (credentials: RegisterCredentials): Promise<{ success: boolean; error?: string; user?: User }> => {
     try {
-      const response = await apiRequest('POST', '/api/auth/register', credentials);
+      const response = await apiRequest('POST', API_BASE + '/api/auth/register', credentials);
       const data = await response.json() as { user: User; token: string };
       
       console.log('✅ Register response received');
