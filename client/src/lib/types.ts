@@ -6,6 +6,7 @@ export interface Sweet {
   stock: number;
   description: string;
   image?: string;
+  imageUrl?: string;
 }
 
 export interface User {
