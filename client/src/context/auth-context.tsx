@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('\n🔐 === LOGIN ATTEMPT ===');
       console.log('📝 Credentials:', { email: credentials.email, password: '***' });
       
-      const response = await apiRequest('POST', API_BASE + '/api/auth/login', credentials);
+      const response = await apiRequest('POST', '/api/auth/login', credentials);
       const data = await response.json() as { user: User; token: string };
       
       console.log('\n✅ Login response received');
@@ -86,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = useCallback(async (credentials: RegisterCredentials): Promise<{ success: boolean; error?: string; user?: User }> => {
     try {
-      const response = await apiRequest('POST', API_BASE + '/api/auth/register', credentials);
+      const response = await apiRequest('POST', '/api/auth/register', credentials);
       const data = await response.json() as { user: User; token: string };
       
       console.log('✅ Register response received');
