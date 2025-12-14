@@ -43,21 +43,13 @@ async function apiCall<T>(url: string, options: RequestInit = {}): Promise<{ dat
   
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
-    console.log(`🔐 Adding token to API call: ${token.substring(0, 20)}...`);
-  } else {
-    console.log(`⚠️  No token found for API call`);
   }
-  
-  console.log(`🌐 API Call: ${options.method || 'GET'} ${API_BASE + url}`);
-  console.log(`   Headers:`, Object.keys(headers));
   try {
     const response = await fetch(API_BASE + url, {
       ...options,
       credentials: 'include',
       headers,
     });
-    
-    console.log(`📊 Response Status: ${response.status} ${response.statusText}`);
     
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ error: 'Request failed' }));
@@ -70,7 +62,6 @@ async function apiCall<T>(url: string, options: RequestInit = {}): Promise<{ dat
     }
     
     const data = await response.json();
-    console.log(`✨ Response data:`, data);
     return { data };
   } catch (err: any) {
     return { error: err.message || 'Network error' };
@@ -94,42 +85,17 @@ export function SweetsProvider({ children }: { children: React.ReactNode }) {
   const refreshSweets = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-    console.log('🔄 Fetching sweets from /api/sweets...');
     const result = await apiCall<Sweet[]>('/api/sweets');
-    
-    console.log('=== FULL API RESPONSE ===');
-    console.log('📦 API Response:', result);
-    console.log('📦 Response.data type:', typeof result.data);
-    console.log('📦 Is result.data an array?', Array.isArray(result.data));
     
     if (result.error) {
       console.error('❌ Error fetching sweets:', result.error);
       setError(result.error);
       setSweets([]);
     } else if (Array.isArray(result.data)) {
-      console.log('✅ Data is array, count:', result.data.length);
       const normalized = result.data.map((sweet, idx) => {
-        console.log(`\n=== SWEET #${idx} ===`);
-        console.log('Raw sweet from API:', sweet);
-        console.log(`  - name: ${sweet.name}`);
-        console.log(`  - price: ${sweet.price}`);
-        console.log(`  - stock: ${sweet.stock}`);
-        console.log(`  - imageUrl: ${sweet.imageUrl}`);
-        console.log(`  - image: ${sweet.image}`);
-        console.log(`  - description: ${sweet.description}`);
-        
         const norm = normalizeSweet(sweet);
-        console.log('After normalization:', norm);
-        console.log(`  - name: ${norm.name}`);
-        console.log(`  - price: ${norm.price}`);
-        console.log(`  - stock: ${norm.stock}`);
-        console.log(`  - image: ${norm.image}`);
-        console.log(`  - description: ${norm.description}`);
         return norm;
       });
-      console.log('\n=== FINAL SWEETS STATE ===');
-      console.log('🎨 All normalized sweets:', normalized);
-      console.log(`Total: ${normalized.length} sweets loaded`);
       setSweets(normalized);
     } else {
       console.warn('⚠️ Response data is not an array:', result.data);
@@ -149,7 +115,7 @@ export function SweetsProvider({ children }: { children: React.ReactNode }) {
     });
     
     if (result.error) {
-      return { success: false, error: result.error };
+       return { success: false, error: result.error };
     }
     
     if (result.data) {

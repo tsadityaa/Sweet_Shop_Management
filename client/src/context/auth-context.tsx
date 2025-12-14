@@ -45,17 +45,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(async (credentials: LoginCredentials): Promise<{ success: boolean; error?: string; user?: User }> => {
     try {
-      console.log('\n🔐 === LOGIN ATTEMPT ===');
-      console.log('📝 Credentials:', { email: credentials.email, password: '***' });
-      
       const response = await apiRequest('POST', '/api/auth/login', credentials);
       const data = await response.json() as { user: User; token: string };
-      
-      console.log('\n✅ Login response received');
-      console.log('   User:', data.user);
-      console.log('   Token type:', typeof data.token);
-      console.log('   Token first 40 chars:', data.token ? data.token.substring(0, 40) + '...' : 'MISSING!');
-      console.log('   Token starts with Bearer?', data.token?.startsWith('Bearer'));
       
       if (!data.token) {
         console.error('❌ ERROR: Server did not return a token!');
@@ -64,11 +55,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       // Clean token if it has Bearer prefix (shouldn't happen, but just in case)
       const cleanToken = data.token.startsWith('Bearer ') ? data.token.substring(7) : data.token;
-      console.log('   Clean token:', cleanToken.substring(0, 40) + '...');
       
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ user: data.user, token: cleanToken }));
-      console.log('✅ Token saved to localStorage (cleaned)');
-      console.log('   Stored token first 40 chars:', cleanToken.substring(0, 40) + '...\n');
       
       setAuthState({ 
         user: data.user, 
@@ -89,21 +77,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await apiRequest('POST', '/api/auth/register', credentials);
       const data = await response.json() as { user: User; token: string };
       
-      console.log('✅ Register response received');
-      console.log('   User:', data.user);
-      console.log('   Token from server:', data.token ? data.token.substring(0, 40) + '...' : 'MISSING!');
-      
       if (!data.token) {
         console.error('❌ ERROR: Server did not return a token!');
         return { success: false, error: 'Registration failed: No token received from server' };
       }
       
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ user: data.user, token: data.token }));
-      console.log('✅ Token saved to localStorage');
       
       setAuthState({ 
         user: data.user, 
-        token: data.token, 
+        token: data.token,
         isAuthenticated: true, 
         isLoading: false 
       });

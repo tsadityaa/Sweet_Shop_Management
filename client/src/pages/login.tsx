@@ -40,7 +40,6 @@ export default function Login() {
     setIsSubmitting(false);
 
     if (result.success) {
-      console.log('🔐 Login successful! User:', result.user);
       toast({
         title: 'Welcome back!',
         description: 'You have successfully logged in.',
@@ -49,10 +48,8 @@ export default function Login() {
       // Small delay to ensure state updates and then navigate
       setTimeout(() => {
         if (result.user?.role === 'admin') {
-          console.log('👨‍💼 Redirecting admin to /admin');
           navigate('/admin');
         } else {
-          console.log('👤 Redirecting user to dashboard');
           navigate('/');
         }
       }, 200);

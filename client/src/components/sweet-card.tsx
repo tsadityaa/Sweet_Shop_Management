@@ -20,16 +20,6 @@ export function SweetCard({ sweet }: SweetCardProps) {
   const [, navigate] = useLocation();
   const [isPurchasing, setIsPurchasing] = useState(false);
 
-  // Debug: Log the sweet data when component mounts or sweet changes
-  useEffect(() => {
-    console.log(`🎴 SweetCard rendered for: ${sweet.name}`);
-    console.log(`   - id: ${sweet.id}`);
-    console.log(`   - price: ${sweet.price}`);
-    console.log(`   - stock: ${sweet.stock}`);
-    console.log(`   - image: ${sweet.image}`);
-    console.log(`   - description: ${sweet.description}`);
-  }, [sweet]);
-
   const isOutOfStock = sweet.stock === 0;
   const isLowStock = sweet.stock > 0 && sweet.stock <= 5;
 
@@ -74,9 +64,7 @@ export function SweetCard({ sweet }: SweetCardProps) {
             console.error(`❌ Image failed to load for ${sweet.name}: ${sweet.image}`);
             e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23ddd" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="20" fill="%23999"%3EImage Not Available%3C/text%3E%3C/svg%3E';
           }}
-          onLoad={() => {
-            console.log(`✅ Image loaded for ${sweet.name}: ${sweet.image}`);
-          }}
+          onLoad={() => {}}
         />
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           <Badge variant="secondary" className="text-xs" data-testid={`badge-category-${sweet.id}`}>

@@ -38,13 +38,7 @@ export async function apiRequest(
   
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
-    console.log(`🔐 Adding Authorization header with token: ${token.substring(0, 20)}...`);
-  } else {
-    console.log(`⚠️  No token found in localStorage for Authorization header`);
   }
-  
-  console.log(`📡 API Request: ${method} ${url}`);
-  console.log(`   Headers:`, Object.keys(headers));
   
   const res = await fetch(API_BASE + url, {
     method,
