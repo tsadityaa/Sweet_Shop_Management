@@ -4,6 +4,10 @@ A full-stack web application for managing and purchasing delicious sweets with u
 
 https://sweet-shop-management-1-c37n.onrender.com/
 
+Admin login:
+mail: t.s.aditya35@gmail.com
+pwd:  Aditya@369
+
 <img width="1515" height="896" alt="image" src="https://github.com/user-attachments/assets/a0d08a84-fe7c-42b1-83ba-ecf640e63c92" />
 
 
